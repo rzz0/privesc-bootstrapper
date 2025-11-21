@@ -306,6 +306,11 @@ assets:
     url: "https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe"
     note: "Credential dumper"
 
+  - name: "beRoot.zip"
+    target: "win_priv/beRoot.zip"
+    url: "https://github.com/AlessandroZ/BeRoot/releases/download/1.0.1/beRoot.zip"
+    note: "BeRoot privilege escalation"
+
   - name: "ligolo-ng_linux_amd64.tar.gz"
     target: "xplat_tun/ligolo/ligolo-ng_linux_amd64.tar.gz"
     url: "https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_proxy_0.8.2_linux_amd64.tar.gz"
