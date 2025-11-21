@@ -1,0 +1,2 @@
+# Minimal privEsc bootstrapper dependencies
+PyYAML>=6.0

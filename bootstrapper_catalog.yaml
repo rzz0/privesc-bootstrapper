@@ -1,0 +1,361 @@
+assets:
+  - name: "SharpHound.exe"
+    target: "win_enum/SharpHound.exe"
+    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_Any/SharpHound.exe"
+    note: "AD enumeration"
+
+  - name: "SharpHound.ps1"
+    target: "win_enum/SharpHound.ps1"
+    url: "https://raw.githubusercontent.com/BloodHoundAD/BloodHound/4.0.3/Collectors/SharpHound.ps1"
+    note: "BloodHound collector"
+
+  - name: "Seatbelt.exe"
+    target: "win_enum/Seatbelt.exe"
+    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/Seatbelt.exe"
+    note: "GhostPack Seatbelt"
+
+  - name: "Snaffler.exe"
+    target: "win_enum/Snaffler.exe"
+    url: "https://github.com/SnaffCon/Snaffler/releases/latest/download/Snaffler.exe"
+    note: "Snaffler enumeration"
+
+  - name: "PowerView.ps1"
+    target: "win_enum/PowerView.ps1"
+    url: "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1"
+    note: "PowerSploit Recon"
+
+  - name: "JAWS.ps1"
+    target: "win_enum/JAWS.ps1"
+    url: "https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1"
+    note: "JAWS enumeration"
+
+  - name: "powercat.ps1"
+    target: "win_move/powercat.ps1"
+    url: "https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1"
+    note: "Powercat"
+
+  - name: "winPEASx64.exe"
+    target: "win_priv/winPEASx64.exe"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/winPEASx64.exe"
+    note: "Windows privesc"
+
+  - name: "winPEASx86.exe"
+    target: "win_priv/winPEASx86.exe"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/winPEASx86.exe"
+    note: "Windows privesc"
+
+  - name: "winPEASany.exe"
+    target: "win_priv/winPEASany.exe"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/winPEASany.exe"
+    note: "Windows privesc"
+
+  - name: "winPEAS.bat"
+    target: "win_priv/winPEAS.bat"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/winPEAS.bat"
+    note: "winPEAS batch launcher"
+
+  - name: "PowerUp.ps1"
+    target: "win_priv/PowerUp.ps1"
+    url: "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1"
+    note: "PowerSploit Privesc"
+
+  - name: "PrivescCheck.ps1"
+    target: "win_priv/PrivescCheck.ps1"
+    url: "https://github.com/itm4n/PrivescCheck/releases/download/2025.10.06-1/PrivescCheck.ps1"
+    note: "Windows privesc checks"
+
+  - name: "PointAndPrint.ps1"
+    target: "win_priv/PointAndPrint.ps1"
+    url: "https://github.com/itm4n/PrivescCheck/releases/download/2025.10.06-1/PointAndPrint.ps1"
+    note: "Point and Print checks"
+
+  - name: "Sherlock.ps1"
+    target: "win_priv/Sherlock.ps1"
+    url: "https://raw.githubusercontent.com/rasta-mouse/Sherlock/master/Sherlock.ps1"
+    note: "Sherlock privesc"
+
+  - name: "PrintSpoofer64.exe"
+    target: "win_priv/PrintSpoofer64.exe"
+    url: "https://github.com/itm4n/PrintSpoofer/releases/latest/download/PrintSpoofer64.exe"
+    note: "PrintSpoofer privesc"
+
+  - name: "SharpUp.exe"
+    target: "win_priv/SharpUp.exe"
+    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/SharpUp.exe"
+    note: "GhostPack SharpUp"
+
+  - name: "Moriarty.exe"
+    target: "win_priv/Moriarty.exe"
+    url: "https://github.com/BC-SECURITY/Moriarty/releases/download/1.2/Moriarty.exe"
+    note: "Moriarty lateral movement"
+
+  - name: "SweetPotato.exe"
+    target: "win_priv/SweetPotato.exe"
+    url: "https://raw.githubusercontent.com/uknowsec/SweetPotato/master/SweetPotato-Webshell-new/bin/Release/SweetPotato.exe"
+    note: "Potato privesc"
+
+  - name: "JuicyPotato.exe"
+    target: "win_priv/JuicyPotato.exe"
+    url: "https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe"
+    note: "Potato privesc"
+
+  - name: "GodPotato-NET2.exe"
+    target: "win_priv/GodPotato-NET2.exe"
+    url: "https://github.com/BeichenDream/GodPotato/releases/download/V1.20/GodPotato-NET2.exe"
+    note: "GodPotato privesc (.NET 2.0)"
+
+  - name: "GodPotato-NET35.exe"
+    target: "win_priv/GodPotato-NET35.exe"
+    url: "https://github.com/BeichenDream/GodPotato/releases/download/V1.20/GodPotato-NET35.exe"
+    note: "GodPotato privesc (.NET 3.5)"
+
+  - name: "GodPotato-NET4.exe"
+    target: "win_priv/GodPotato-NET4.exe"
+    url: "https://github.com/BeichenDream/GodPotato/releases/download/V1.20/GodPotato-NET4.exe"
+    note: "GodPotato privesc (.NET 4.0)"
+
+  - name: "Rubeus.exe"
+    target: "win_cred/Rubeus.exe"
+    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/Rubeus.exe"
+    note: "GhostPack Rubeus"
+
+  - name: "Certify.exe"
+    target: "win_cred/Certify.exe"
+    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/Certify.exe"
+    note: "GhostPack Certify"
+
+  - name: "Certipy.exe"
+    target: "win_cred/Certipy.exe"
+    url: "https://github.com/ly4k/Certipy/releases/download/5.0.3/Certipy.exe"
+    note: "AD CS abuse"
+
+  - name: "Cable.exe"
+    target: "win_move/Cable.exe"
+    url: "https://github.com/logangoins/Cable/releases/download/1.1/Cable.exe"
+    note: "Cable lateral movement"
+
+  - name: "plink.exe"
+    target: "win_move/plink.exe"
+    url: "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe"
+    note: "PuTTY link"
+
+  - name: "chisel_windows_amd64.exe"
+    target: "win_tun/chisel.exe"
+    url: "https://github.com/jpillora/chisel/releases/download/v1.11.3/chisel_1.11.3_windows_amd64.zip"
+    note: "Chisel tunnel (amd64)"
+
+  - name: "chisel_windows_386.exe"
+    target: "win_tun/chisel_386.exe"
+    url: "https://github.com/jpillora/chisel/releases/download/v1.11.3/chisel_1.11.3_windows_386.zip"
+    note: "Chisel tunnel (x86)"
+
+  - name: "nc.exe"
+    target: "win_tun/nc.exe"
+    url: "https://raw.githubusercontent.com/diegocr/netcat/master/nc.exe"
+    note: "Netcat"
+
+  - name: "SysinternalsSuite.zip"
+    target: "win_coll/SysinternalsSuite/SysinternalsSuite.zip"
+    url: "https://download.sysinternals.com/files/SysinternalsSuite.zip"
+    note: "Sysinternals suite (EULA required)"
+
+  - name: "SharpCollection"
+    target: "win_coll/SharpCollection.zip"
+    url: "https://github.com/Flangvik/SharpCollection/archive/refs/heads/master.zip"
+    note: "SharpCollection archive"
+
+  - name: "adPEAS"
+    target: "win_play/adPEAS.zip"
+    url: "https://github.com/ajm4n/adPEAS/archive/refs/heads/main.zip"
+    note: "adPEAS toolkit"
+
+  - name: "pspy64"
+    target: "lin_mon/pspy64"
+    url: "https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64"
+    note: "Process monitor"
+    postchmod_x: true
+
+  - name: "pspy32"
+    target: "lin_mon/pspy32"
+    url: "https://github.com/DominicBreuker/pspy/releases/latest/download/pspy32"
+    note: "Process monitor"
+    postchmod_x: true
+
+  - name: "linpeas.sh"
+    target: "lin_enum/linpeas.sh"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/linpeas.sh"
+    note: "Linux privesc"
+    postchmod_x: true
+
+  - name: "linpeas_fat.sh"
+    target: "lin_enum/linpeas_fat.sh"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/linpeas_fat.sh"
+    note: "Linux privesc (fat)"
+    postchmod_x: true
+
+  - name: "linpeas_small.sh"
+    target: "lin_enum/linpeas_small.sh"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/linpeas_small.sh"
+    note: "Linux privesc (small)"
+    postchmod_x: true
+
+  - name: "linpeas_linux_386"
+    target: "lin_enum/linpeas_linux_386"
+    url: "https://github.com/peass-ng/PEASS-ng/releases/download/20251101-a416400b/linpeas_linux_386"
+    note: "Linux privesc 32-bit"
+    postchmod_x: true
+
+  - name: "LinEnum.sh"
+    target: "lin_enum/LinEnum.sh"
+    url: "https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh"
+    note: "Linux enumeration"
+    postchmod_x: true
+
+  - name: "linux-exploit-suggester.sh"
+    target: "lin_enum/linux-exploit-suggester.sh"
+    url: "https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh"
+    note: "Linux exploit suggester"
+    postchmod_x: true
+
+  - name: "linux-exploit-suggester-2.pl"
+    target: "lin_enum/linux-exploit-suggester-2.pl"
+    url: "https://raw.githubusercontent.com/jondonas/linux-exploit-suggester-2/master/linux-exploit-suggester-2.pl"
+    note: "Linux exploit suggester v2"
+
+  - name: "linuxprivchecker.py"
+    target: "lin_enum/linuxprivchecker.py"
+    url: "https://raw.githubusercontent.com/sleventyeleven/linuxprivchecker/master/linuxprivchecker.py"
+    note: "Linux privilege checker"
+
+  - name: "lse.sh"
+    target: "lin_enum/lse.sh"
+    url: "https://github.com/diego-treitos/linux-smart-enumeration/releases/download/4.14nw/lse.sh"
+    note: "Linux smart enumeration"
+    postchmod_x: true
+
+  - name: "traitor-386"
+    target: "lin_priv/traitor-386"
+    url: "https://github.com/liamg/traitor/releases/download/v0.0.14/traitor-386"
+    note: "Traitor privesc (386)"
+    postchmod_x: true
+
+  - name: "traitor-amd64"
+    target: "lin_priv/traitor-amd64"
+    url: "https://github.com/liamg/traitor/releases/download/v0.0.14/traitor-amd64"
+    note: "Traitor privesc (amd64)"
+    postchmod_x: true
+
+  - name: "traitor-arm64"
+    target: "lin_priv/traitor-arm64"
+    url: "https://github.com/liamg/traitor/releases/download/v0.0.14/traitor-arm64"
+    note: "Traitor privesc (arm64)"
+    postchmod_x: true
+
+  - name: "php_reverse_shell.php"
+    target: "web_php/php_reverse_shell.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/php_reverse_shell.php"
+    note: "PHP reverse shell (Ivan Sincek)"
+
+  - name: "php_reverse_shell_mini.php"
+    target: "web_php/php_reverse_shell_mini.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/minified/php_reverse_shell_mini.php"
+    note: "PHP reverse shell mini (Ivan Sincek)"
+
+  - name: "simple_php_web_shell_post.php"
+    target: "web_php/simple_php_web_shell_post.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_post.php"
+    note: "Simple PHP web shell (POST)"
+
+  - name: "simple_php_web_shell_get_v2.php"
+    target: "web_php/simple_php_web_shell_get_v2.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_get_v2.php"
+    note: "Simple PHP web shell GET v2"
+
+  - name: "simple_php_web_shell_get.php"
+    target: "web_php/simple_php_web_shell_get.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_get.php"
+    note: "Simple PHP web shell GET"
+
+  - name: "simple_php_web_shell_get_mini.php"
+    target: "web_php/simple_php_web_shell_get_mini.php"
+    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/minified/simple_php_web_shell_get_mini.php"
+    note: "Simple PHP web shell GET mini"
+
+  - name: "shell.php"
+    target: "web_php/shell.php"
+    url: "https://raw.githubusercontent.com/TheBinitGhimire/Web-Shells/master/shell.php"
+    note: "Basic PHP web shell"
+
+  - name: "shell.asp"
+    target: "web_aspx/shell.asp"
+    url: "https://raw.githubusercontent.com/TheBinitGhimire/Web-Shells/master/shell.asp"
+    note: "Basic ASP web shell"
+
+  - name: "shell.jsp"
+    target: "web_jsp/shell.jsp"
+    url: "https://raw.githubusercontent.com/TheBinitGhimire/Web-Shells/master/shell.jsp"
+    note: "Basic JSP web shell"
+
+  - name: "mimikatz_trunk.zip"
+    target: "win_cred/mimikatz/mimikatz_trunk.zip"
+    url: "https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20220919/mimikatz_trunk.zip"
+    note: "Credential dump"
+
+  - name: "LaZagne.exe"
+    target: "win_priv/LaZagne.exe"
+    url: "https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe"
+    note: "Credential dumper"
+
+  - name: "ligolo-ng_linux_amd64.tar.gz"
+    target: "xplat_tun/ligolo/ligolo-ng_linux_amd64.tar.gz"
+    url: "https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_proxy_0.8.2_linux_amd64.tar.gz"
+    note: "Ligolo-ng proxy and agent (linux amd64) - extracts both binaries"
+
+  - name: "ligolo-ng_agent_windows_amd64.zip"
+    target: "xplat_tun/ligolo/ligolo-ng_agent_windows_amd64.zip"
+    url: "https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_agent_0.8.2_windows_amd64.zip"
+    note: "Ligolo-ng agent (windows amd64)"
+
+  - name: "socatx64.bin"
+    target: "xplat_utils/socat/socatx64.bin"
+    url: "https://github.com/3ndG4me/socat/releases/download/v1.7.3.3/socatx64.bin"
+    note: "socat linux x64"
+    postchmod_x: true
+
+  - name: "socatx64.exe"
+    target: "win_tun/socatx64.exe"
+    url: "https://github.com/3ndG4me/socat/releases/download/v1.7.3.3/socatx64.exe"
+    note: "socat windows x64"
+
+  - name: "socatx86.bin"
+    target: "xplat_utils/socat/socatx86.bin"
+    url: "https://github.com/3ndG4me/socat/releases/download/v1.7.3.3/socatx86.bin"
+    note: "socat linux x86"
+    postchmod_x: true
+
+  - name: "socatx86.exe"
+    target: "win_tun/socatx86.exe"
+    url: "https://github.com/3ndG4me/socat/releases/download/v1.7.3.3/socatx86.exe"
+    note: "socat windows x86"
+
+  - name: "kerbrute_linux_386"
+    target: "lin_enum/kerbrute_linux_386"
+    url: "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_386"
+    note: "Kerberos bruteforce/enumeration"
+    postchmod_x: true
+
+  - name: "kerbrute_linux_amd64"
+    target: "lin_enum/kerbrute_linux_amd64"
+    url: "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64"
+    note: "Kerberos bruteforce/enumeration"
+    postchmod_x: true
+
+  - name: "kerbrute_windows_386.exe"
+    target: "win_enum/kerbrute_386.exe"
+    url: "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe"
+    note: "Kerberos bruteforce/enumeration"
+
+  - name: "kerbrute_windows_amd64.exe"
+    target: "win_enum/kerbrute.exe"
+    url: "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe"
+    note: "Kerberos bruteforce/enumeration"
