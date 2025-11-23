@@ -233,10 +233,11 @@ assets:
     note: "Test tool"
 """)
 
-        assets = privesc_bootstrapper.load_assets_from_yaml(catalog_file)
+        assets, post_copy = privesc_bootstrapper.load_assets_from_yaml(catalog_file)
         assert len(assets) == 1
         assert assets[0]["name"] == "test.exe"
         assert assets[0]["target"] == "win_enum/test.exe"
+        assert post_copy == []
 
     def test_invalid_yaml_format_raises(self, tmp_path):
         """Test that invalid YAML format raises an error"""
@@ -255,6 +256,25 @@ assets:
 
         with pytest.raises(ValueError, match="Invalid catalog format"):
             privesc_bootstrapper.load_assets_from_yaml(catalog_file)
+
+    def test_load_yaml_with_post_copy(self, tmp_path):
+        """Test loading YAML catalog with post_copy section"""
+        catalog_file = tmp_path / "catalog.yaml"
+        catalog_file.write_text("""
+assets:
+  - name: "test.exe"
+    target: "win_enum/test.exe"
+    url: "https://example.com/test.exe"
+post_copy:
+  - source: "source/file.exe"
+    destination: "dest/file.exe"
+""")
+
+        assets, post_copy = privesc_bootstrapper.load_assets_from_yaml(catalog_file)
+        assert len(assets) == 1
+        assert len(post_copy) == 1
+        assert post_copy[0]["source"] == "source/file.exe"
+        assert post_copy[0]["destination"] == "dest/file.exe"
 
 
 class TestProcessAsset:
@@ -537,6 +557,35 @@ class TestExtractTarGzFull:
         
         assert not (tmp_path / "etc" / "passwd").exists()
 
+    def test_extract_tar_gz_skips_directories(self, tmp_path):
+        """Test that TAR.GZ directories are skipped"""
+        import tarfile
+        import io
+        import gzip
+        
+        tar_buffer = io.BytesIO()
+        with tarfile.open(fileobj=tar_buffer, mode="w") as tf:
+            file_info = tarfile.TarInfo(name="file.txt")
+            file_info.size = len(b"content")
+            tf.addfile(file_info, io.BytesIO(b"content"))
+            
+            dir_info = tarfile.TarInfo(name="subdir/")
+            dir_info.type = tarfile.DIRTYPE
+            tf.addfile(dir_info)
+        
+        tar_data = tar_buffer.getvalue()
+        
+        gz_buffer = io.BytesIO()
+        with gzip.GzipFile(fileobj=gz_buffer, mode="wb") as gz:
+            gz.write(tar_data)
+        tar_gz_data = gz_buffer.getvalue()
+        
+        extract_dir = tmp_path / "extract"
+        privesc_bootstrapper.extract_tar_gz_full(tar_gz_data, extract_dir, dry_run=False)
+        
+        assert (extract_dir / "file.txt").exists()
+        assert not (extract_dir / "subdir").is_file()
+
     def _create_test_tar_gz(self) -> bytes:
         """Helper to create a test TAR.GZ file in memory"""
         import tarfile
@@ -638,6 +687,30 @@ class TestProcessAssetEdgeCases:
         mock_download.assert_called_once()
 
     @patch("privesc_bootstrapper.download")
+    @patch("privesc_bootstrapper.compute_sha256")
+    def test_process_asset_hash_computation_error(self, mock_compute, mock_download, tmp_path):
+        """Test that hash computation error triggers re-download"""
+        test_file = tmp_path / "win_enum" / "test.exe"
+        test_file.parent.mkdir(parents=True)
+        test_file.write_bytes(b"old content")
+        
+        checksum_path = tmp_path / "core" / "checksums" / "win_enum" / "test.exe.sha256"
+        checksum_path.parent.mkdir(parents=True)
+        checksum_path.write_text("some_hash")
+        
+        mock_compute.side_effect = OSError("Permission denied")
+        mock_download.return_value = b"new content"
+        asset = {
+            "name": "test.exe",
+            "target": "win_enum/test.exe",
+            "url": "https://example.com/test.exe",
+        }
+        
+        privesc_bootstrapper.process_asset(tmp_path, asset, dry_run=False, force=False)
+        
+        mock_download.assert_called_once()
+
+    @patch("privesc_bootstrapper.download")
     def test_process_asset_executable_flag(self, mock_download, tmp_path):
         """Test that executable flag makes file executable"""
         mock_download.return_value = b"#!/bin/bash\necho test"
@@ -687,15 +760,100 @@ class TestProcessAssetEdgeCases:
         
         privesc_bootstrapper.process_asset(tmp_path, asset, dry_run=True, force=False)
 
+    def test_process_asset_dry_run_tar_gz(self, tmp_path):
+        """Test dry-run for TAR.GZ assets"""
+        asset = {
+            "name": "archive.tar.gz",
+            "target": "xplat_tun/ligolo/archive.tar.gz",
+            "url": "https://example.com/archive.tar.gz",
+        }
+        
+        privesc_bootstrapper.process_asset(tmp_path, asset, dry_run=True, force=False)
+        assert not (tmp_path / "xplat_tun" / "ligolo" / "archive.tar.gz").exists()
+
+
+class TestProcessPostCopy:
+    """Tests for process_post_copy function"""
+
+    def test_process_post_copy_success(self, tmp_path):
+        """Test successful post-copy operation"""
+        source_file = tmp_path / "source" / "file.exe"
+        source_file.parent.mkdir(parents=True)
+        source_file.write_bytes(b"file content")
+        
+        copy_item = {
+            "source": "source/file.exe",
+            "destination": "dest/file.exe"
+        }
+        
+        privesc_bootstrapper.process_post_copy(tmp_path, copy_item, dry_run=False)
+        
+        dest_file = tmp_path / "dest" / "file.exe"
+        assert dest_file.exists()
+        assert dest_file.read_bytes() == b"file content"
+
+    def test_process_post_copy_dry_run(self, tmp_path):
+        """Test post-copy in dry-run mode"""
+        source_file = tmp_path / "source" / "file.exe"
+        source_file.parent.mkdir(parents=True)
+        source_file.write_bytes(b"file content")
+        
+        copy_item = {
+            "source": "source/file.exe",
+            "destination": "dest/file.exe"
+        }
+        
+        privesc_bootstrapper.process_post_copy(tmp_path, copy_item, dry_run=True)
+        
+        dest_file = tmp_path / "dest" / "file.exe"
+        assert not dest_file.exists()
+
+    def test_process_post_copy_missing_source(self, tmp_path):
+        """Test post-copy with missing source file"""
+        copy_item = {
+            "source": "source/nonexistent.exe",
+            "destination": "dest/file.exe"
+        }
+        
+        privesc_bootstrapper.process_post_copy(tmp_path, copy_item, dry_run=False)
+        
+        dest_file = tmp_path / "dest" / "file.exe"
+        assert not dest_file.exists()
+
+    def test_process_post_copy_invalid_source_path(self, tmp_path):
+        """Test post-copy with invalid source path"""
+        copy_item = {
+            "source": "../etc/passwd",
+            "destination": "dest/file.exe"
+        }
+        
+        with pytest.raises(ValueError, match="Invalid target path"):
+            privesc_bootstrapper.process_post_copy(tmp_path, copy_item, dry_run=False)
+
+    def test_process_post_copy_invalid_dest_path(self, tmp_path):
+        """Test post-copy with invalid destination path"""
+        source_file = tmp_path / "source" / "file.exe"
+        source_file.parent.mkdir(parents=True)
+        source_file.write_bytes(b"file content")
+        
+        copy_item = {
+            "source": "source/file.exe",
+            "destination": "../../etc/passwd"
+        }
+        
+        with pytest.raises(ValueError, match="Invalid target path"):
+            privesc_bootstrapper.process_post_copy(tmp_path, copy_item, dry_run=False)
+
 
 class TestMain:
     """Tests for main function"""
 
+    @patch("privesc_bootstrapper.process_post_copy")
     @patch("privesc_bootstrapper.process_asset")
     @patch("privesc_bootstrapper.load_assets_from_yaml")
     @patch("privesc_bootstrapper.setup_logging")
     @patch("privesc_bootstrapper.parse_args")
-    def test_main_success(self, mock_parse, mock_logging, mock_load, mock_process, tmp_path):
+    def test_main_success(self, mock_parse, mock_logging, mock_load, mock_process, mock_post_copy, tmp_path):
         """Test successful main execution"""
         mock_args = Mock()
         mock_args.base_dir = str(tmp_path)
@@ -705,11 +863,13 @@ class TestMain:
         mock_parse.return_value = mock_args
         
         asset = {"name": "test.exe", "target": "win_enum/test.exe", "url": "https://example.com/test.exe"}
-        mock_load.return_value = [asset]
+        copy_item = {"source": "source/file.exe", "destination": "dest/file.exe"}
+        mock_load.return_value = ([asset], [copy_item])
         
         result = privesc_bootstrapper.main()
         assert result == 0
         mock_process.assert_called_once()
+        mock_post_copy.assert_called_once()
 
     @patch("privesc_bootstrapper.load_assets_from_yaml")
     @patch("privesc_bootstrapper.setup_logging")
@@ -726,11 +886,12 @@ class TestMain:
         result = privesc_bootstrapper.main()
         assert result == 1
 
+    @patch("privesc_bootstrapper.process_post_copy")
     @patch("privesc_bootstrapper.process_asset")
     @patch("privesc_bootstrapper.load_assets_from_yaml")
     @patch("privesc_bootstrapper.setup_logging")
     @patch("privesc_bootstrapper.parse_args")
-    def test_main_asset_processing_error(self, mock_parse, mock_logging, mock_load, mock_process, tmp_path):
+    def test_main_asset_processing_error(self, mock_parse, mock_logging, mock_load, mock_process, mock_post_copy, tmp_path):
         """Test main with asset processing error"""
         mock_args = Mock()
         mock_args.base_dir = str(tmp_path)
@@ -740,9 +901,32 @@ class TestMain:
         mock_parse.return_value = mock_args
         
         asset = {"name": "test.exe", "target": "win_enum/test.exe", "url": "https://example.com/test.exe"}
-        mock_load.return_value = [asset]
+        mock_load.return_value = ([asset], [])
         
         mock_process.side_effect = RuntimeError("Download failed")
+        
+        result = privesc_bootstrapper.main()
+        assert result == 0
+
+    @patch("privesc_bootstrapper.process_post_copy")
+    @patch("privesc_bootstrapper.process_asset")
+    @patch("privesc_bootstrapper.load_assets_from_yaml")
+    @patch("privesc_bootstrapper.setup_logging")
+    @patch("privesc_bootstrapper.parse_args")
+    def test_main_post_copy_error(self, mock_parse, mock_logging, mock_load, mock_process, mock_post_copy, tmp_path):
+        """Test main with post-copy error"""
+        mock_args = Mock()
+        mock_args.base_dir = str(tmp_path)
+        mock_args.verbose = False
+        mock_args.dry_run = False
+        mock_args.force = False
+        mock_parse.return_value = mock_args
+        
+        asset = {"name": "test.exe", "target": "win_enum/test.exe", "url": "https://example.com/test.exe"}
+        copy_item = {"source": "source/file.exe", "destination": "dest/file.exe"}
+        mock_load.return_value = ([asset], [copy_item])
+        
+        mock_post_copy.side_effect = RuntimeError("Copy failed")
         
         result = privesc_bootstrapper.main()
         assert result == 0
