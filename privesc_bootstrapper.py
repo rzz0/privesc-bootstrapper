@@ -11,6 +11,7 @@ Author: rzz0 (https://github.com/rzz0)
 import argparse
 import logging
 import os
+import shutil
 import stat
 import sys
 import tempfile
@@ -20,7 +21,7 @@ import zipfile
 import tarfile
 import hashlib
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 LOGGER = logging.getLogger("bootstrap")
@@ -171,7 +172,7 @@ def extract_tar_gz_full(tar_gz_bytes: bytes, base_target: Path, dry_run: bool) -
         tmp_tar_path.unlink()
 
 
-def load_assets_from_yaml(catalog_path: Path) -> List[Dict[str, Any]]:
+def load_assets_from_yaml(catalog_path: Path) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     try:
         import yaml
     except ImportError:
@@ -180,7 +181,7 @@ def load_assets_from_yaml(catalog_path: Path) -> List[Dict[str, Any]]:
     data = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     if not isinstance(data, dict) or "assets" not in data:
         raise ValueError("Invalid catalog format: missing 'assets'")
-    return data["assets"]
+    return data["assets"], data.get("post_copy", [])
 
 
 def process_asset(base: Path, asset: Dict[str, Any], dry_run: bool, force: bool = False) -> None:
@@ -259,6 +260,26 @@ def process_asset(base: Path, asset: Dict[str, Any], dry_run: bool, force: bool 
     LOGGER.info("OK → %s", dst)
 
 
+def process_post_copy(base: Path, copy_item: Dict[str, Any], dry_run: bool) -> None:
+    source_rel = validate_relative(copy_item["source"])
+    dest_rel = validate_relative(copy_item["destination"])
+    
+    source_path = base / source_rel
+    dest_path = base / dest_rel
+    
+    if not source_path.exists():
+        LOGGER.warning("Source not found: %s → skipping", source_path)
+        return
+    
+    if dry_run:
+        LOGGER.info("[dry-run] Would copy %s → %s", source_path, dest_path)
+        return
+    
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source_path, dest_path)
+    LOGGER.info("Copied %s → %s", source_path, dest_path)
+
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Minimal privEsc bootstrapper")
     p.add_argument("--base-dir", default="~/privEsc", help="Destination directory")
@@ -279,7 +300,7 @@ def main() -> int:
     catalog_path = script_dir / "bootstrapper_catalog.yaml"
 
     try:
-        assets = load_assets_from_yaml(catalog_path)
+        assets, post_copy = load_assets_from_yaml(catalog_path)
     except Exception as exc:
         LOGGER.error("Failed to load catalog: %s", exc)
         return 1
@@ -299,6 +320,12 @@ def main() -> int:
                 future.result()
             except Exception as exc:
                 LOGGER.error("Failed processing %s: %s", asset.get("name"), exc)
+
+    for copy_item in post_copy:
+        try:
+            process_post_copy(base, copy_item, args.dry_run)
+        except Exception as exc:
+            LOGGER.error("Failed post-copy: %s", exc)
 
     return 0
 

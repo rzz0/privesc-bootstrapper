@@ -1,13 +1,8 @@
 assets:
-  - name: "SharpHound.exe"
-    target: "win_enum/SharpHound.exe"
-    url: "https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_Any/SharpHound.exe"
-    note: "AD enumeration"
-
-  - name: "SharpHound.ps1"
-    target: "win_enum/SharpHound.ps1"
-    url: "https://raw.githubusercontent.com/BloodHoundAD/BloodHound/4.0.3/Collectors/SharpHound.ps1"
-    note: "BloodHound collector"
+  - name: "SharpHound_v2.8.0_windows_x86.zip"
+    target: "win_enum/SharpHound_v2.8.0_windows_x86.zip"
+    url: "https://github.com/SpecterOps/SharpHound/releases/download/v2.8.0/SharpHound_v2.8.0_windows_x86.zip"
+    note: "SharpHound (includes .exe, .ps1, .exe.config, .pdb)"
 
   - name: "Seatbelt.exe"
     target: "win_enum/Seatbelt.exe"
@@ -26,12 +21,12 @@ assets:
 
   - name: "JAWS.ps1"
     target: "win_enum/JAWS.ps1"
-    url: "https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1"
+    url: "https://github.com/411Hall/JAWS/blob/master/jaws-enum.ps1"
     note: "JAWS enumeration"
 
   - name: "powercat.ps1"
     target: "win_move/powercat.ps1"
-    url: "https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1"
+    url: "https://github.com/besimorhino/powercat/blob/master/powercat.ps1"
     note: "Powercat"
 
   - name: "winPEASx64.exe"
@@ -126,7 +121,7 @@ assets:
 
   - name: "Certipy.exe"
     target: "win_cred/Certipy.exe"
-    url: "https://github.com/ly4k/Certipy/releases/download/5.0.3/Certipy.exe"
+    url: "https://github.com/ly4k/Certipy/releases/download/5.0.4/Certipy.exe"
     note: "AD CS abuse"
 
   - name: "Cable.exe"
@@ -151,7 +146,7 @@ assets:
 
   - name: "nc.exe"
     target: "win_tun/nc.exe"
-    url: "https://raw.githubusercontent.com/diegocr/netcat/master/nc.exe"
+    url: "https://github.com/int0x33/nc.exe/blob/master/nc.exe"
     note: "Netcat"
 
   - name: "SysinternalsSuite.zip"
@@ -224,7 +219,7 @@ assets:
 
   - name: "linuxprivchecker.py"
     target: "lin_enum/linuxprivchecker.py"
-    url: "https://raw.githubusercontent.com/sleventyeleven/linuxprivchecker/master/linuxprivchecker.py"
+    url: "https://github.com/sleventyeleven/linuxprivchecker/blob/master/linuxprivchecker.py"
     note: "Linux privilege checker"
 
   - name: "lse.sh"
@@ -251,35 +246,10 @@ assets:
     note: "Traitor privesc (arm64)"
     postchmod_x: true
 
-  - name: "php_reverse_shell.php"
-    target: "web_php/php_reverse_shell.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/php_reverse_shell.php"
-    note: "PHP reverse shell (Ivan Sincek)"
-
-  - name: "php_reverse_shell_mini.php"
-    target: "web_php/php_reverse_shell_mini.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/reverse/minified/php_reverse_shell_mini.php"
-    note: "PHP reverse shell mini (Ivan Sincek)"
-
-  - name: "simple_php_web_shell_post.php"
-    target: "web_php/simple_php_web_shell_post.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_post.php"
-    note: "Simple PHP web shell (POST)"
-
-  - name: "simple_php_web_shell_get_v2.php"
-    target: "web_php/simple_php_web_shell_get_v2.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_get_v2.php"
-    note: "Simple PHP web shell GET v2"
-
-  - name: "simple_php_web_shell_get.php"
-    target: "web_php/simple_php_web_shell_get.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/simple_php_web_shell_get.php"
-    note: "Simple PHP web shell GET"
-
-  - name: "simple_php_web_shell_get_mini.php"
-    target: "web_php/simple_php_web_shell_get_mini.php"
-    url: "https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/web/minified/simple_php_web_shell_get_mini.php"
-    note: "Simple PHP web shell GET mini"
+  - name: "php-reverse-shell-2.6.zip"
+    target: "web_php/php-reverse-shell-2.6.zip"
+    url: "https://github.com/ivan-sincek/php-reverse-shell/archive/refs/tags/v2.6.zip"
+    note: "PHP reverse shell collection (includes all variants)"
 
   - name: "shell.php"
     target: "web_php/shell.php"
@@ -364,3 +334,9 @@ assets:
     target: "win_enum/kerbrute.exe"
     url: "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe"
     note: "Kerberos bruteforce/enumeration"
+
+post_copy:
+  - source: "win_coll/SharpCollection-master/NetFramework_4.7_x64/Rubeus.exe"
+    destination: "win_cred/Rubeus.exe"
+  - source: "win_coll/SharpCollection-master/NetFramework_4.7_x64/Certify.exe"
+    destination: "win_cred/Certify.exe"
