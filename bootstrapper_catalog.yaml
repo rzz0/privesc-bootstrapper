@@ -149,6 +149,11 @@ assets:
     url: "https://github.com/int0x33/nc.exe/blob/master/nc.exe"
     note: "Netcat"
 
+  - name: "nc64.exe"
+    target: "win_tun/nc64.exe"
+    url: "https://raw.githubusercontent.com/int0x33/nc.exe/master/nc64.exe"
+    note: "Netcat 64-bit"
+
   - name: "SysinternalsSuite.zip"
     target: "win_coll/SysinternalsSuite/SysinternalsSuite.zip"
     url: "https://download.sysinternals.com/files/SysinternalsSuite.zip"
