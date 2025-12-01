@@ -21,12 +21,12 @@ assets:
 
   - name: "JAWS.ps1"
     target: "win_enum/JAWS.ps1"
-    url: "https://github.com/411Hall/JAWS/blob/master/jaws-enum.ps1"
+    url: "https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1"
     note: "JAWS enumeration"
 
   - name: "powercat.ps1"
     target: "win_move/powercat.ps1"
-    url: "https://github.com/besimorhino/powercat/blob/master/powercat.ps1"
+    url: "https://raw.githubusercontent.com/besimorhino/powercat/master/powercat.ps1"
     note: "Powercat"
 
   - name: "winPEASx64.exe"
@@ -146,7 +146,7 @@ assets:
 
   - name: "nc.exe"
     target: "win_tun/nc.exe"
-    url: "https://github.com/int0x33/nc.exe/blob/master/nc.exe"
+    url: "https://raw.githubusercontent.com/int0x33/nc.exe/master/nc.exe"
     note: "Netcat"
 
   - name: "nc64.exe"
@@ -224,7 +224,7 @@ assets:
 
   - name: "linuxprivchecker.py"
     target: "lin_enum/linuxprivchecker.py"
-    url: "https://github.com/sleventyeleven/linuxprivchecker/blob/master/linuxprivchecker.py"
+    url: "https://raw.githubusercontent.com/sleventyeleven/linuxprivchecker/master/linuxprivchecker.py"
     note: "Linux privilege checker"
 
   - name: "lse.sh"
